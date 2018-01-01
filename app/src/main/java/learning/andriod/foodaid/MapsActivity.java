@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
 
+    private static final String TAG = "sachin";
     private Marker marker;
     private Button logout;
     private FirebaseAuth mauth;
@@ -58,7 +59,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private static final String TAG = "MapActivity";
+
     private ArrayList<Double> lati,longi;
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;

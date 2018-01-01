@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.firebase.client.Firebase;
 
-public class trailsmap extends Application {
+public class FoodAid extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
