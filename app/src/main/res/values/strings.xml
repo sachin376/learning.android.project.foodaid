@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">FoodAid</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_pick_up">PickUp</string>
+    <string name="appbar_scrolling_view_behavior">abc</string>
+</resources>

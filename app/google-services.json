@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "66636323880",
+    "firebase_url": "https://foodaid-1557289172079.firebaseio.com",
+    "project_id": "foodaid-1557289172079",
+    "storage_bucket": "foodaid-1557289172079.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66636323880:android:c36e182b4263100f",
+        "android_client_info": {
+          "package_name": "learning.andriod.foodaid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66636323880-nl5uk0bch6afm3jsi6hsmui42as0tsda.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "learning.andriod.foodaid",
+            "certificate_hash": "f34d74eb0626526e14ce52e8249456a5a02ffd8a"
+          }
+        },
+        {
+          "client_id": "66636323880-8ct2a3vbqq72jp0dvjmaark94fjc7i5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1T3Ohgdq3gk2R_T3GYJV8BspR0_fkI6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66636323880-8ct2a3vbqq72jp0dvjmaark94fjc7i5d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
