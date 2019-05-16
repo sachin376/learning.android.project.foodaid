@@ -82,7 +82,8 @@
                 app:layout_constraintHorizontal_bias="0.867"
                 app:layout_constraintStart_toStartOf="@+id/name"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.155" />
+                app:layout_constraintVertical_bias="0.155"
+                android:importantForAutofill="no" />
 
         </TableRow>
 
@@ -108,9 +109,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Phone"
+                android:text="@string/phone"
                 android:textColor="@color/colorAccent"
-                android:textSize="24sp"
+                android:textSize="30sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +136,8 @@
                 app:layout_constraintHorizontal_bias="0.387"
                 app:layout_constraintStart_toEndOf="@+id/phone"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.499" />
+                app:layout_constraintVertical_bias="0.499"
+                android:importantForAutofill="no" />
         </TableRow>
 
         <TableRow
@@ -160,7 +162,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Address"
+                android:text="@string/address"
                 android:textColor="@color/colorAccent"
                 android:textSize="30sp"
                 android:textStyle="bold|italic"
@@ -181,7 +183,8 @@
                 android:layout_marginBottom="8dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:autofillHints="" />
         </TableRow>
 
         <TableRow
@@ -206,7 +209,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Food type"
+                android:text="@string/food_type"
                 android:textColor="@color/colorAccent"
                 android:textSize="30sp"
                 android:textStyle="bold|italic"
@@ -237,14 +240,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="false"
-                    android:text="Vegetarian" />
+                    android:text="@string/vegetarian" />
 
                 <CheckBox
                     android:id="@+id/checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nonvegetarian" />
+                    android:text="@string/nonvegetarian" />
             </LinearLayout>
         </TableRow>
 
@@ -285,11 +288,12 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:ems="10"
-                android:hint="Enter email here"
+                android:hint="@string/enter_email_here"
                 android:inputType="textEmailAddress"
                 android:textSize="24sp"
                 tools:layout_editor_absoluteX="135dp"
-                tools:layout_editor_absoluteY="376dp" />
+                tools:layout_editor_absoluteY="376dp"
+                android:autofillHints="" />
 
         </TableRow>
 
@@ -315,7 +319,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Pwd"
+                android:text="@string/pwd"
                 android:textColor="@color/colorAccent"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -331,7 +335,8 @@
                 android:ems="10"
                 android:hint="@string/enter_password_here"
                 android:inputType="textPassword"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:autofillHints="" />
         </TableRow>
 
         <LinearLayout

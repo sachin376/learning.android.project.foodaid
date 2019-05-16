@@ -8,8 +8,8 @@
     tools:context="learning.andriod.foodaid.MainActivity">
 
     <LinearLayout
-        android:layout_width="374dp"
-        android:layout_height="560dp"
+        android:layout_width="400dp"
+        android:layout_height="720dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -26,9 +26,10 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="311dp"
+            android:layout_height="200dp"
             app:srcCompat="@drawable/ic_launcher_background"
-            tools:layout_editor_absoluteY="189dp" />
+            tools:layout_editor_absoluteY="189dp"
+            android:contentDescription="TODO" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Login :"
+                android:text="@string/login__"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="24sp"
                 android:textStyle="bold|italic" />
@@ -54,7 +55,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Enter your login id"
+                android:hint="@string/enter_your_login_id"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -62,7 +63,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:orientation="horizontal">
 
             <TextView
@@ -70,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="password :"
+                android:text="@string/password_"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="24sp"
                 android:textStyle="bold|italic" />
@@ -82,7 +83,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="password"
+                android:hint="@string/password"
                 android:inputType="textPassword" />
 
         </LinearLayout>
@@ -100,14 +101,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Login" />
+                android:text="@string/login_" />
 
             <Button
                 android:id="@+id/signupBut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Signup"
+                android:text="@string/signup"
                 tools:layout_editor_absoluteX="68dp"
                 tools:layout_editor_absoluteY="364dp" />
 
