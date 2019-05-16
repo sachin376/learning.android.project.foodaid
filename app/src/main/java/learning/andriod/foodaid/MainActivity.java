@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void startSignIn() {
         final String email = userId.getText().toString();
         final String password = pwd.getText().toString();
-        final String admin = "krishchandran@ymail.com";
-        final String ps = "q";
+        final String admin = "sachin@gmail.com";
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Enter the Credentials properly.!", Toast.LENGTH_SHORT).show();

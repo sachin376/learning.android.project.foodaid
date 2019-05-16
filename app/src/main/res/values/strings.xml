@@ -21,4 +21,10 @@
     <string name="enter_your_login_id">Enter your login id</string>
     <string name="login_">Login</string>
     <string name="login__">Login :</string>
+    <string name="logout">Logout</string>
+    <string name="you_are_a_click_away_from_donating_the_edible_food">You are a click away from donating the edible food.</string>
+    <string name="donate">DONATE</string>
+    <string name="company_logo">Company Logo</string>
+    <string name="click_the_button_to_confirm_the_pickup">Click the button to confirm the pickup</string>
+    <string name="yes">YES</string>
 </resources>

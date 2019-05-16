@@ -20,7 +20,7 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logout"
         tools:layout_editor_absoluteX="292dp"
         tools:layout_editor_absoluteY="513dp" />
 

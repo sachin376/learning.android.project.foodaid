@@ -27,14 +27,14 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:contentDescription="@string/company_logo"
             app:srcCompat="@drawable/ic_launcher_background"
-            tools:layout_editor_absoluteY="189dp"
-            android:contentDescription="TODO" />
+            tools:layout_editor_absoluteY="189dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="50dp"
             android:orientation="horizontal">
 
@@ -52,11 +52,12 @@
                 android:id="@+id/login_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/enter_your_login_id"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:autofillHints="" tools:targetApi="o"/>
 
         </LinearLayout>
 
@@ -80,17 +81,18 @@
                 android:id="@+id/password_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:autofillHints="" tools:targetApi="o"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             tools:layout_editor_absoluteX="164dp"
