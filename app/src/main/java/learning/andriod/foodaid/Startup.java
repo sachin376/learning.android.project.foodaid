@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 public class Startup extends AppCompatActivity {
