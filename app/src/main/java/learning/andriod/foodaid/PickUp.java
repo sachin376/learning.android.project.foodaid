@@ -18,22 +18,27 @@ import java.util.Calendar;
 
 public class PickUp extends AppCompatActivity {
 
-    private Button confirm;
-    private Firebase mref,ref;
+    private static final String FIREBASE_URL = "https://foodaid-1557289172079.firebaseio.com/users";
+    private Firebase firebase;
     private FirebaseAuth auth;
     private DatabaseReference db;
+
+    private Button confirmButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_up);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        confirm=(Button)findViewById(R.id.confirm);
+        confirmButton = (Button) findViewById(R.id.confirm);
+
         Firebase.setAndroidContext(this);
-        db= FirebaseDatabase.getInstance().getReference();
-        ref=new Firebase("https://foodaid-1557289172079.firebaseio.com/users");
-        auth= FirebaseAuth.getInstance();
-        confirm.setOnClickListener(new View.OnClickListener() {
+        db = FirebaseDatabase.getInstance().getReference();
+        firebase = new Firebase(FIREBASE_URL);
+        auth = FirebaseAuth.getInstance();
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 update();
@@ -41,30 +46,29 @@ public class PickUp extends AppCompatActivity {
             }
         });
     }
-    private void update(){
 
-        String s= auth.getUid();
-        Intent i=getIntent();
-        if(s==null) s=i.getStringExtra("uid");
+    private void update() {
+        String AuthUUID = auth.getUid();
+        Intent intent = getIntent();
 
-     //   String s= i.getStringExtra("uid");
-        mref=ref.child(s);
-        Firebase Fflag=mref.child("flag");
-        Fflag.setValue("0");
+        if (AuthUUID == null)
+            AuthUUID = intent.getStringExtra("AuthUUID");
 
+        Firebase firebaseRef = firebase.child(AuthUUID);
+        Firebase flag = firebaseRef.child("flag");
+        flag.setValue("0");
         String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
 
-        Firebase time=mref.child("Time");
+        Firebase time = firebaseRef.child("Time");
         time.setValue(timeStamp);
-        Toast.makeText(this, "Thanks for donating ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Thanks for the help !!!", Toast.LENGTH_SHORT).show();
         FirebaseAuth.getInstance().signOut();
         Intent a = new Intent(PickUp.this, MainActivity.class);
-
         startActivity(a);
     }
-    protected void onStop(){
+
+    protected void onStop() {
         super.onStop();
         FirebaseAuth.getInstance().signOut();
     }
-
 }

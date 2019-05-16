@@ -12,27 +12,24 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 public class Startup extends AppCompatActivity {
-    private AdView mAdView;
+
     private static int time=4000;
-    private ProgressBar p;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
-        p=(ProgressBar)findViewById(R.id.progress);
+
+        progressBar =(ProgressBar)findViewById(R.id.progress);
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                Intent i= new Intent(Startup.this, MainActivity.class);
-                startActivity(i);
+                Intent intent= new Intent(Startup.this, MainActivity.class);
+                startActivity(intent);
                 finish();
-                p.setVisibility(View.INVISIBLE);
-
+                progressBar.setVisibility(View.INVISIBLE);
             }
         },time);
-        MobileAds.initialize(this, String.valueOf(R.id.adView));
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
     }
 }

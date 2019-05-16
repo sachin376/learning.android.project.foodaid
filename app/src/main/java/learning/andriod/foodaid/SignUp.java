@@ -27,37 +27,43 @@ import java.util.List;
 
 public class SignUp extends AppCompatActivity {
 
-    private Button sign,log;
-    private Firebase ref;
-    private Firebase mref;
-    private FirebaseAuth mAuth;
+    private static final String FIREBASE_URL = "https://foodaid-1557289172079.firebaseio.com/users";
+
+    private Firebase firebase;
+    private Firebase firebaseRef;
+    private FirebaseAuth firebaseAuth;
+
+    private Button signButton, logButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        Firebase.setAndroidContext(this);
-        ref=new Firebase("https://foodaid-1557289172079.firebaseio.com/users"); // firebase link
-        sign=(Button)findViewById(R.id.sign);
-        mAuth = FirebaseAuth.getInstance();
 
-        log=(Button)findViewById(R.id.logins);
+        Firebase.setAndroidContext(this);
+        firebase =new Firebase(FIREBASE_URL);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        signButton =(Button)findViewById(R.id.sign);
+        logButton =(Button)findViewById(R.id.logins);
         init();
     }
 
     void init(){
-        sign.setOnClickListener(new View.OnClickListener() {
+        signButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText userid=(EditText)findViewById(R.id.usertext);
                 EditText pwd=(EditText)findViewById(R.id.pwdtext);
-                String user_id=userid.getText().toString();
-                String pass=pwd.getText().toString();
-                mAuth.createUserWithEmailAndPassword(user_id,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                String userId = userid.getText().toString();
+                String password = pwd.getText().toString();
+
+                firebaseAuth.createUserWithEmailAndPassword(userId,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            String uid=mAuth.getUid();
+                            String uid= firebaseAuth.getUid();
                             EditText name=(EditText)findViewById(R.id.nametext);
                             EditText address=(EditText)findViewById(R.id.addresstext);
                             EditText phone=(EditText)findViewById(R.id.phonetext);
@@ -72,24 +78,24 @@ public class SignUp extends AppCompatActivity {
                             TextView na=(TextView)findViewById(R.id.name);
 
                             TextView add=(TextView)findViewById(R.id.address);
-                            mref=ref.child(uid);
+                            firebaseRef = firebase.child(uid);
 
-                            Firebase Fname=mref.child(na.getText().toString());
+                            Firebase Fname= firebaseRef.child(na.getText().toString());
                             Fname.setValue(name.getText().toString());
 
-                            Firebase Fphone=mref.child(phonet.getText().toString());
+                            Firebase Fphone= firebaseRef.child(phonet.getText().toString());
                             Fphone.setValue(phone.getText().toString());
-                            Firebase Fuserid=mref.child(useridt.getText().toString());
+                            Firebase Fuserid= firebaseRef.child(useridt.getText().toString());
                             Fuserid.setValue(userid.getText().toString());
-                            Firebase Fpwd=mref.child(pwdt.getText().toString());
+                            Firebase Fpwd= firebaseRef.child(pwdt.getText().toString());
                             Fpwd.setValue(pwd.getText().toString());
-                            Firebase Faddress=mref.child(add.getText().toString());
+                            Firebase Faddress= firebaseRef.child(add.getText().toString());
                             Faddress.setValue(address.getText().toString());
 
-                            Firebase Fflag=mref.child("flag");
+                            Firebase Fflag= firebaseRef.child("flag");
                             Fflag.setValue("0");
 
-                            Firebase time=mref.child("Time");
+                            Firebase time= firebaseRef.child("Time");
                             time.setValue(timeStamp);
 
                             String user_id= userid.getText().toString();
@@ -107,9 +113,9 @@ public class SignUp extends AppCompatActivity {
                             }
                             if(list.size()>0){
                                 Address addr=list.get(0);
-                                Firebase lat=mref.child("Lat");
+                                Firebase lat= firebaseRef.child("Lat");
                                 lat.setValue(addr.getLatitude());
-                                Firebase longi=mref.child("long");
+                                Firebase longi= firebaseRef.child("long");
                                 longi.setValue(addr.getLongitude());
                                 Log.e("GELOC","gfound location: "+address.toString());
 
@@ -130,41 +136,11 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        log.setOnClickListener(new View.OnClickListener() {
+        logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(SignUp.this,MainActivity.class));
             }
         });
-
-
-
     }
-
-    /*public LatLng getLocationFromAddress(Context context, String strAddress) {
-
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng p1 = null;
-
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-
-        return p1;
-    }*/
 }

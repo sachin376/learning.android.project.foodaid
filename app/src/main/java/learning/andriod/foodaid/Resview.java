@@ -15,19 +15,22 @@ import java.util.Calendar;
 
 public class Resview extends AppCompatActivity {
 
-    private Button donate;
-    private Firebase mref,ref;
+    private static final String FIREBASE_URL = "https://foodaid-1557289172079.firebaseio.com/users";
+
+    private Firebase firebase;
     private FirebaseAuth auth;
+    private Button donateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resview);
         Firebase.setAndroidContext(this);
-        ref=new Firebase("https://foodaid-1557289172079.firebaseio.com/users");
-        auth= FirebaseAuth.getInstance();
-        donate=(Button)findViewById(R.id.donate);
-        donate.setOnClickListener(new View.OnClickListener() {
+
+        firebase = new Firebase(FIREBASE_URL);
+        auth = FirebaseAuth.getInstance();
+        donateButton = (Button) findViewById(R.id.donate);
+        donateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 update();
@@ -37,25 +40,28 @@ public class Resview extends AppCompatActivity {
     }
 
 
-    private void update(){
+    private void update() {
 
-        String s= auth.getUid();
-        Intent i=getIntent();
-        if(s==null) s=i.getStringExtra("uid");
-        mref=ref.child(s);
-        Firebase Fflag=mref.child("flag");
-        Fflag.setValue("10");
+        String authUUID = auth.getUid();
+        Intent intent = getIntent();
+        if (authUUID == null)
+            authUUID = intent.getStringExtra("uid");
+
+        Firebase firebaseRef = firebase.child(authUUID);
+        Firebase flag = firebaseRef.child("flag");
+        flag.setValue("10");
         String timeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
 
-        Firebase time=mref.child("Time");
+        Firebase time = firebaseRef.child("Time");
         time.setValue(timeStamp);
-        Toast.makeText(this, "FLagged", Toast.LENGTH_SHORT).show();
-        Intent a = new Intent(Resview.this, PickUp.class);
-        a.putExtra("uid",s);
-        startActivity(a);
+        Toast.makeText(this, "This location has been FLagged", Toast.LENGTH_SHORT).show();
+        Intent intentPickup = new Intent(Resview.this, PickUp.class);
+        intentPickup.putExtra("uid", authUUID);
+        startActivity(intentPickup);
 
     }
-    protected void onStop(){
+
+    protected void onStop() {
         super.onStop();
         FirebaseAuth.getInstance().signOut();
     }
