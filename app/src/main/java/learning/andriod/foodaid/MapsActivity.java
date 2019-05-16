@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -17,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -71,7 +72,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             init();
         }
     }
-
 
 
     @Override
@@ -128,37 +128,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Log.e(TAG, dataSnapshot.toString());
-                int m = 0, n = 0;
-                Iterable<DataSnapshot> dt = dataSnapshot.getChildren();
-                for (DataSnapshot d : dt) {
+                int isNewFoodLocationAvailable = 0, n = 0;
+                Iterable<DataSnapshot> users = dataSnapshot.getChildren();
+                for (DataSnapshot user : users) {
 
-                    if (d.getKey().equals("Lat")) {
-                        Log.e("LAAATTT", "YESSS");
-                        double ef = (double) d.getValue();
-
-                        for (DataSnapshot f : dt) {
-                            Log.e("VALUE FOR KEY", ":" + d.getKey() + ":" + d.getValue());
-                            if (f.getKey().equals("flag") && f.getValue().equals("10")) {
-                                Log.e("YESSS", "YESYEYSYES");
-                                latitude.add(ef);
-
-                                for (DataSnapshot e : dt) {
-                                    if (e.getKey().equals("long")) {
-                                        Log.e("LOONGGG", "YESSS");
-                                        longitude.add((Double) e.getValue());
-                                        m = 1;
+                    if (user.getKey().equals("Lat")) {
+                        double latitudeFromDB = (double) user.getValue();
+                        for (DataSnapshot userDocument : users) {
+                            Log.e(TAG, ":" + user.getKey() + ":" + user.getValue());
+                            // todo remove flag 10
+                            if (userDocument.getKey().equals("flag") && userDocument.getValue().equals("10")) {
+                                latitude.add(latitudeFromDB);
+                                for (DataSnapshot userItem : users) {
+                                    if (userItem.getKey().equals("long")) {
+                                        longitude.add((Double) userItem.getValue());
+                                        isNewFoodLocationAvailable = 1;
                                     }
                                 }
 
-                            } else if (f.getKey().equals("flag") && f.getValue().equals("0")) {
-                                Log.e("YESSS", "YESYEYSYES");
-                                latitude.remove(ef);
+                            } else if (userDocument.getKey().equals("flag") && userDocument.getValue().equals("0")) {
+                                latitude.remove(latitudeFromDB);
 
-                                for (DataSnapshot e : dt) {
-                                    if (e.getKey().equals("long")) {
-                                        Log.e("LOONGGG", "noo");
-                                        longitude.remove((Double) e.getValue());
-                                        m = 0;
+                                for (DataSnapshot userItem : users) {
+                                    if (userItem.getKey().equals("long")) {
+                                        longitude.remove((Double) userItem.getValue());
+                                        isNewFoodLocationAvailable = 0;
                                     }
                                 }
                             }
@@ -166,30 +160,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 }
 
-                if (m == 1) {
+                if (isNewFoodLocationAvailable == 1) {
                     for (int i = 0; i < latitude.size(); i++) {
-                        Log.e("LATI LONG", "LAT: " + latitude.get(i) + "&& LONG :" + longitude.get(i));
                         position.add(i, new LatLng(latitude.get(i), longitude.get(i)));
-                        moveCamera(position.get(i), 15f, "FOOD IS AVAILABLE HERE");
+                        moveCamera(position.get(i), 15f, "FOOD IS AVAILABLE AT THIS LOCATION");
                     }
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    // Vibrate for 500 milliseconds
                     v.vibrate(700);
-
-                    Toast.makeText(MapsActivity.this, "WE are getting this changed", Toast.LENGTH_SHORT).show();
-                } else if (m == 0) {
+                    Toast.makeText(MapsActivity.this, "updated", Toast.LENGTH_SHORT).show();
+                } else if (isNewFoodLocationAvailable == 0) {
                     for (int i = 0; i < latitude.size(); i++) {
-                        Log.e("LATI LONG", "LAT: " + latitude.get(i) + "&& LONG :" + longitude.get(i));
                         position.add(i, new LatLng(latitude.get(i), longitude.get(i)));
-                        moveCamera(position.get(i), 30f, "FOOD IS AVAILABLE HERE");
+                        moveCamera(position.get(i), 30f, "FOOD IS AVAILABLE AT THIS LOCATION");
                     }
-                    Toast.makeText(MapsActivity.this, "WE are not getting this changed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapsActivity.this, "We are not getting this updated", Toast.LENGTH_SHORT).show();
 
                 }
-                Intent i = new Intent(MapsActivity.this, MapsActivity.class);
-                startActivity(i);
-
-
+                Intent intent = new Intent(MapsActivity.this, MapsActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -210,7 +198,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void getDeviceLocation() {
-        Log.e("DEVICE LOCATIOn", "WE ARE ENTERING THIS METHOD");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             if (locationPermissionsGranted) {
@@ -219,14 +206,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            Log.e("FOUND", "CURRENT LOCATION");
+                            Log.e(TAG, "FOUND CURRENT LOCATION");
                             Location currentLocation = (Location) task.getResult();
-
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15f, "My location");
-
-
                         } else {
-                            Log.e("NOT FOUND", "CURRENT LOCATION");
+                            Log.e(TAG, "CURRENT LOCATION NOT FOUND");
                         }
                     }
 
@@ -236,56 +220,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (SecurityException e) {
             Log.e("SECURITY", "EXCEPTION");
         }
-
-
     }
 
     private void init() {
-        Log.e("map", "Initializing");
+        Log.e(TAG, "Map Initializing");
         //geolocate();
     }
 
-   /* private void geolocate(){
-        Intent i = getIntent();
-        //The second parameter below is the default string returned if the value is not there.
-        String txtData = i.getExtras().getString("txtData","");
-        Log.e("GEolocate","GEOLOCATING");
-        String searchstring= txtData;
-        Geocoder geocoder=new Geocoder(MapsActivity.this);
-        List<Address> list=new ArrayList<>();
-        try {
-            list=geocoder.getFromLocationName(searchstring,1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(list.size()>0){
-            Address address=list.get(0);
-
-            Log.e("GELOC","gfound location: "+address.toString());
-            moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getLocality());
-        }
-    }*/
-
-
     private void moveCamera(LatLng latLng, float zoom, String title) {
-        Log.e("POSTIIONO", "MOVING TO LATLONG AND ZOOMING");
+        Log.e(TAG, "MOVING TO LAT LONG AND ZOOMING");
         googleMap.setOnMarkerClickListener(this);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title(title);
-
-
         marker = googleMap.addMarker(options);
-
-
     }
 
     private void initMap() {
         Log.e(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
         mapFragment.getMapAsync(MapsActivity.this);
     }
 
@@ -294,34 +248,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
 
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                    COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationPermissionsGranted = true;
                 initMap();
             } else {
-                ActivityCompat.requestPermissions(this,
-                        permissions,
-                        LOCATION_PERMISSION_REQUEST_CODE);
+                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
         } else {
-            ActivityCompat.requestPermissions(this,
-                    permissions,
-                    LOCATION_PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.e(TAG, "onRequestPermissionsResult: called.");
+        Log.e(TAG, "inside onRequestPermissionsResult");
         locationPermissionsGranted = false;
-
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    for (int grantResult = 0; grantResult < grantResults.length; grantResult++) {
+                        if (grantResults[grantResult] != PackageManager.PERMISSION_GRANTED) {
                             locationPermissionsGranted = false;
                             Log.d(TAG, "onRequestPermissionsResult: permission failed");
                             return;
@@ -338,22 +285,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     @Override
-    public boolean onMarkerClick(Marker maarker) {
-        if (maarker.equals(marker)) {
-            String l = marker.getId();
-
+    public boolean onMarkerClick(Marker marker) {
+        if (marker.equals(this.marker)) {
             firebaseRef.orderByChild("Time");
             Log.e("MARKER ID:", "12");
-
-
             Toast.makeText(this, "Yeas", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
     }
 }
-
-
-
-
-
