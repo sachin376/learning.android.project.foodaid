@@ -26,18 +26,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "sachin";
+    private static final String TAG = "sk";
     private static final String FIREBASE_URL = "https://foodaid-1557289172079.firebaseio.com/users";
-
-    private AdView mAdView;
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-    private Firebase mref;
+
+    private Firebase firebaseRef;
     private FirebaseAuth mAuth;
-    private EditText userid;
-    private EditText pwd;
     private DatabaseReference db;
     private FirebaseAuth.AuthStateListener mAuthstate;
+
+    private EditText userId;
+    private EditText pwd;
+
+    // todo delete from all the files
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         Firebase.setAndroidContext(this);
-        mref = new Firebase(FIREBASE_URL);
+        firebaseRef = new Firebase(FIREBASE_URL);
         db = FirebaseDatabase.getInstance().getReference();
 
         if (isGooglePlayServicesAvailable()) {
@@ -65,10 +68,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startSignIn() {
-        final String email = userid.getText().toString();
+        final String email = userId.getText().toString();
         final String password = pwd.getText().toString();
         final String admin = "krishchandran@ymail.com";
         final String ps = "q";
+
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Enter the Credentials properly.!", Toast.LENGTH_SHORT).show();
         } else {
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindViewAttributes() {
-        userid = (EditText) findViewById(R.id.login_text);
+        userId = (EditText) findViewById(R.id.login_text);
         pwd = (EditText) findViewById(R.id.password_text);
         Button loginButton = (Button) findViewById(R.id.loginBut);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -116,16 +120,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isGooglePlayServicesAvailable() {
-        Log.e(TAG, "isGooglePlayServicesAvailable: checking google services version");
+        Log.e(TAG, "isGooglePlayServicesAvailable: Verifying GooglePlay services version");
 
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
         if (available == ConnectionResult.SUCCESS) {
+            Log.e(TAG, "isGooglePlayServicesAvailable: GooglePlay Services is working");
             //everything is fine and the user can make map requests
-            Log.e(TAG, "isGooglePlayServicesAvailable: Google Play Services is working");
             return true;
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            //an error occured but we can resolve it
-            Log.e(TAG, "isGooglePlayServicesAvailable: an error occurred but we can fix it");
+            Log.e(TAG, "isGooglePlayServicesAvailable: An error occurred, possibly we can fix it");
+            //An error occurred, possibly we can resolve it
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
@@ -134,4 +138,3 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 }
-
