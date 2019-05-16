@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
-//import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,11 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference db;
     private FirebaseAuth.AuthStateListener mAuthstate;
-
     private EditText userId;
     private EditText pwd;
-
-//    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                     if (!(task.isSuccessful())) {
                         Toast.makeText(MainActivity.this, "Login Failed.! Sign up", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.e("User", ":" + email);
-                        Log.e("admin user", ":" + admin);
+                        Log.e(TAG, "User:" + email);
+                        Log.e(TAG, "admin user:" + admin);
                         Intent intent;
                         if (!email.equals(admin)) {
                             intent = new Intent(MainActivity.this, Resview.class);

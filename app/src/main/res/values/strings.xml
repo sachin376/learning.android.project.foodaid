@@ -3,4 +3,10 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_pick_up">PickUp</string>
     <string name="appbar_scrolling_view_behavior">abc</string>
+    <string name="signup">Signup</string>
+    <string name="user_id">user id</string>
+    <string name="enter_password_here">Enter Password here</string>
+    <string name="login">login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Name</string>
 </resources>

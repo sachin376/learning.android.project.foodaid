@@ -182,17 +182,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
     }
@@ -218,7 +215,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
         } catch (SecurityException e) {
-            Log.e("SECURITY", "EXCEPTION");
+            Log.e(TAG, " SECURITY EXCEPTION");
         }
     }
 
@@ -288,7 +285,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(this.marker)) {
             firebaseRef.orderByChild("Time");
-            Log.e("MARKER ID:", "12");
+            Log.e(TAG, "MARKER ID: 12");
             Toast.makeText(this, "Yeas", Toast.LENGTH_SHORT).show();
             return true;
         }
