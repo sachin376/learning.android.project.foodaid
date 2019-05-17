@@ -43,6 +43,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String FIREBASE_URL = "https://foodaid-1557289172079.firebaseio.com/users";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    public static final String FOOD_AVAILABLE = "10";
+    public static final String FOOD_NOT_AVAILABLE = "0";
 
     private ArrayList<LatLng> position;
     private ArrayList<Double> latitude, longitude;
@@ -105,8 +107,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         double latitudeFromDb = (double) user.getValue();
                         for (DataSnapshot UserDocument : users) {
                             Log.e(TAG, "key :" + user.getKey() + " value :" + user.getValue());
-                            // todo change from 10 to 1 or 0
-                            if (UserDocument.getKey().equals("flag") && UserDocument.getValue().equals("10")) {
+                            if (UserDocument.getKey().equals("flag") && UserDocument.getValue().equals(FOOD_AVAILABLE)) {
                                 latitude.add(latitudeFromDb);
                                 for (DataSnapshot UserItem : users) {
                                     if (UserItem.getKey().equals("long")) {
@@ -136,8 +137,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         double latitudeFromDB = (double) user.getValue();
                         for (DataSnapshot userDocument : users) {
                             Log.e(TAG, ":" + user.getKey() + ":" + user.getValue());
-                            // todo remove flag 10
-                            if (userDocument.getKey().equals("flag") && userDocument.getValue().equals("10")) {
+                            if (userDocument.getKey().equals("flag") && userDocument.getValue().equals(FOOD_AVAILABLE)) {
                                 latitude.add(latitudeFromDB);
                                 for (DataSnapshot userItem : users) {
                                     if (userItem.getKey().equals("long")) {
@@ -146,7 +146,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     }
                                 }
 
-                            } else if (userDocument.getKey().equals("flag") && userDocument.getValue().equals("0")) {
+                            } else if (userDocument.getKey().equals("flag") && userDocument.getValue().equals(FOOD_NOT_AVAILABLE)) {
                                 latitude.remove(latitudeFromDB);
 
                                 for (DataSnapshot userItem : users) {
